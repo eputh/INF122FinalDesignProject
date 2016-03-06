@@ -43,10 +43,6 @@ public class GridPanel extends JPanel implements MouseListener {
         add(gridPanel);
     }
 
-    public void paintComponent(Graphics g) {
-//        g.setColor(Color.DARK_GRAY);
-    }
-
     public void update() {
 
     }

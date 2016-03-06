@@ -50,10 +50,6 @@ public class ScorePanel extends JPanel{
         add(scoresPanel);
     }
 
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.DARK_GRAY);
-    }
-
     public void update() {
         int oldScore = scoresMap.get(player);
         scoresMap.replace(player, oldScore, oldScore++);

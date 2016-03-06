@@ -8,6 +8,9 @@ import java.awt.*;
 
 /**
  * Created by Emily on 3/5/2016.
+ * Notes: Assuming State stores whose turn it is, Turn switches
+ * the current player
+ *  Does not yet update the GUI
  */
 public class TurnPanel extends JPanel {
 
@@ -37,10 +40,6 @@ public class TurnPanel extends JPanel {
         turnPanel.add(turnLabel);
 
         add(turnPanel);
-    }
-
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.DARK_GRAY);
     }
 
     public void update() {

@@ -1,6 +1,7 @@
 package GUI;
 
 import state.State;
+import database.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -10,6 +11,9 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by Emily on 3/5/2016.
+ * Notes: User provides username and password, the ActionListener
+ * saves the input in the username and password variables, respectively
+ *  Currently does not save into the database
  */
 public class LoginPanel extends JPanel {
 
