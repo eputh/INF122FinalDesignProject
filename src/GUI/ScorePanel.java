@@ -15,7 +15,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.Color;
 
 public class ScorePanel extends JPanel{
-    private ArmagriddonGUI gui;
     private State state;
 
     private JPanel scoresPanel;
@@ -25,18 +24,15 @@ public class ScorePanel extends JPanel{
     private HashMap<Integer, Integer> scoresMap;
     private Integer player;
 
-    public ScorePanel(ArmagriddonGUI g, State s) {
-        gui = g;
+    public ScorePanel(State s) {
         state = s;
         player = state.getCurrentPlayer();
 
         scoresMap = new HashMap<Integer, Integer>();
         scoresMap = s.getScores();
 
-        player1Label = new JLabel();
-        player1Label.setText("Player 1: " + scoresMap.get(1));
-        player2Label = new JLabel();
-        player2Label.setText("Player 2: " + scoresMap.get(2));
+        player1Label = new JLabel("Player 1: " + scoresMap.get(1));
+        player2Label = new JLabel("Player 2: " + scoresMap.get(2));
 
         scoresPanel = new JPanel(new GridBagLayout());
         scoresPanel.setPreferredSize(new Dimension(300,50));
@@ -47,9 +43,9 @@ public class ScorePanel extends JPanel{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        scoresPanel.add(player1Label);
+        scoresPanel.add(player1Label, gbc);
         gbc.gridy++;
-        scoresPanel.add(player2Label);
+        scoresPanel.add(player2Label, gbc);
 
         add(scoresPanel);
     }

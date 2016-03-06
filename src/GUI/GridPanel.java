@@ -11,13 +11,11 @@ import java.awt.event.MouseListener;
  * Created by Emily on 3/5/2016.
  */
 public class GridPanel extends JPanel implements MouseListener {
-    private ArmagriddonGUI gui;
     private State state;
 
     private JPanel gridPanel;
 
-    public GridPanel(ArmagriddonGUI g, State s, int rows, int cols) {
-        gui = g;
+    public GridPanel(State s, int rows, int cols) {
         state = s;
 
         gridPanel = new JPanel(new GridBagLayout());

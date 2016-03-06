@@ -17,9 +17,8 @@ import java.awt.Color;
 
 public class ArmagriddonGUI extends JFrame implements ActionListener{
 
-    private ScorePanel scorePanel;
-    private TurnPanel turnPanel;
-    private GridPanel gridPanel;
+    private LoginPanel loginPanel;
+    private GamePlayPanel gamePlayPanel;
 
     private State state;
 
@@ -30,9 +29,8 @@ public class ArmagriddonGUI extends JFrame implements ActionListener{
     public void reset(State s) {
         state = s;
 
-        scorePanel = new ScorePanel(this, state);
-        turnPanel = new TurnPanel(this, state);
-        gridPanel = new GridPanel(this, state, 8, 8);
+        loginPanel = new LoginPanel(state);
+        gamePlayPanel = new GamePlayPanel(state, 8, 8);
 
         String title = "Armagriddon";
         setTitle(title);
@@ -42,9 +40,8 @@ public class ArmagriddonGUI extends JFrame implements ActionListener{
         mainPane.setPreferredSize(new Dimension(1024, 710));
 
         // Add panels
-        mainPane.add(scorePanel, BorderLayout.SOUTH);
-        mainPane.add(turnPanel, BorderLayout.NORTH);
-        mainPane.add(gridPanel, BorderLayout.CENTER);
+        mainPane.add(loginPanel, BorderLayout.CENTER);
+//        mainPane.add(gamePlayPanel, BorderLayout.NORTH);
 
         // Set main window frame properties
         mainPane.setBackground(Color.white);
@@ -59,8 +56,6 @@ public class ArmagriddonGUI extends JFrame implements ActionListener{
     }
 
     public void update() {
-        scorePanel.update();
-        turnPanel.update();
         repaint();
     }
 

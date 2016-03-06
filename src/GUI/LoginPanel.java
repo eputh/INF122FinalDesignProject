@@ -5,22 +5,41 @@ import state.State;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.HashMap;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Emily on 3/5/2016.
  */
 public class LoginPanel extends JPanel {
-    private ArmagriddonGUI gui;
+
     private State state;
 
+    private JPanel welcomePanel;
     private JPanel loginPanel;
+    private JTextField usernameTextField;
+    private JTextField passwordTextField;
     private String username;
     private String password;
+    private JButton loginButton;
 
-    public LoginPanel(ArmagriddonGUI g, State s) {
-        gui = g;
+    public LoginPanel(State s) {
         state = s;
+        usernameTextField = new JTextField(25);
+        passwordTextField = new JTextField(25);
+        loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                username = usernameTextField.getText();
+                password = passwordTextField.getText();
+            }
+        });
+
+        welcomePanel = new JPanel(new GridBagLayout());
+        welcomePanel.setPreferredSize(new Dimension(1000, 700));
+        welcomePanel.setBackground(Color.WHITE);
+        welcomePanel.setLayout(new GridBagLayout());
 
         loginPanel = new JPanel(new GridBagLayout());
         loginPanel.setPreferredSize(new Dimension(200,200));
@@ -40,25 +59,23 @@ public class LoginPanel extends JPanel {
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
-        loginPanel.add(new JTextField(25), gbc);
+        loginPanel.add(usernameTextField, gbc);
         gbc.gridy++;
-        loginPanel.add(new JTextField(25), gbc);
+        loginPanel.add(passwordTextField, gbc);
 
         gbc.gridx = 1;
         gbc.gridy++;
         gbc.gridwidth = 1;
         gbc.weightx = 0;
         gbc.fill = GridBagConstraints.NONE;
-        loginPanel.add(new JButton("Login"), gbc);
+        loginPanel.add(loginButton, gbc);
 
-        add(loginPanel);
+        GridBagConstraints gbcWelcome = new GridBagConstraints();
+        gbcWelcome.gridx = 0;
+        gbcWelcome.gridy = 0;
+        welcomePanel.add(loginPanel);
+
+        add(welcomePanel);
     }
 
-    public void paintComponent(Graphics g) {
-//        g.setColor(Color.DARK_GRAY);
-    }
-
-    public void update() {
-
-    }
 }

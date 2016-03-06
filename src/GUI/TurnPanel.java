@@ -11,7 +11,6 @@ import java.awt.*;
  */
 public class TurnPanel extends JPanel {
 
-    private ArmagriddonGUI gui;
     private State state;
 
     private JPanel turnPanel;
@@ -19,8 +18,7 @@ public class TurnPanel extends JPanel {
 
     private Integer currentPlayer;
 
-    public TurnPanel(ArmagriddonGUI g, State s) {
-        gui = g;
+    public TurnPanel(State s) {
         state = s;
         currentPlayer = state.getCurrentPlayer();
 
