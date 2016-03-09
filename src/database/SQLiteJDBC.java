@@ -244,8 +244,8 @@ public class SQLiteJDBC
 		System.out.println(my.insertPlayer("Nikita"));
 		System.out.println(my.insertPlayer("Cameron"));
 		System.out.println(my.insertPlayer("Emily"));
-//		my.printPlayerInfo("Cameron");
-		my.updateUserProfile("Jefmark", "Checkers", false);
+		my.printPlayerInfo("Cameron");
+		my.updateUserProfile("Jefmark", "Checkers", true);
 		my.printPlayerInfo("Jefmark");
 		System.out.println("Checkers games won: " + my.getGamesWon("Jefmark", "Checkers"));
 		System.out.println("Checkers games played: " + my.getGamesPlayed("Jefmark", "Checkers"));
