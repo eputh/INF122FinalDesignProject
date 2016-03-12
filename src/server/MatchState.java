@@ -7,28 +7,30 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// add battleship pieces
+public class MatchState extends GameState{
 
-public class BattleshipState extends GameState{
-
-    private String gameName = "Battleship";
+    private String gameName = "Tic-Tac-Toe";
     private Integer currentPlayer = 1;
     private HashMap<Integer, Integer> scoresMap;
     private JLabel grid[];
     // Game object information... (gridDimensions, rulebook, etc.)
     private Pair<Integer, Integer> gridDimensions;
     private ArrayList<ImageIcon> gamePieces;
+    private ArrayList<JLabel> clickedPanels;
 
-    public BattleshipState() {
+    public MatchState() {
         scoresMap = new HashMap<Integer, Integer>();
         scoresMap.put(1,0);
         scoresMap.put(2,0);
         // set grid/gameboard
         gridDimensions = new Pair<Integer, Integer> (8,8);
+        clickedPanels = new ArrayList<JLabel>();
 
         // import image files for game pieces
         String pathString = Paths.get("").toAbsolutePath().toString();
         gamePieces = new ArrayList<ImageIcon>();
+        gamePieces.add(new ImageIcon(pathString+"/src/GUI/images/x.png"));
+        gamePieces.add(new ImageIcon(pathString+"/src/GUI/images/o.png"));
     }
 
     public String getGameName() { return gameName; }
@@ -44,6 +46,7 @@ public class BattleshipState extends GameState{
     public ImageIcon getGamePiece(int playerNum) {
         return gamePieces.get(playerNum-1);
     }
+    public ArrayList<JLabel> getClickedPanels() { return clickedPanels; }
 
     public void setGrid(JLabel[] startingBoard) {
         grid = startingBoard;
@@ -54,6 +57,14 @@ public class BattleshipState extends GameState{
             currentPlayer = 2;
         else if (currentPlayer == 2)
             currentPlayer = 1;
+        clearClickedPanels();
     }
 
+    public void addClickedPanel(JLabel clickedPanel) {
+        clickedPanels.add(clickedPanel);
+    }
+
+    public void clearClickedPanels() {
+        clickedPanels.clear();
+    }
 }
