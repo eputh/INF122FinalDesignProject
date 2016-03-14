@@ -10,13 +10,14 @@ import java.util.ArrayList;
 public class TicTacToeLogic extends GameLogic {
 
     public int maxClicksPerTurn = 1;
+    public boolean hasSpecialVersion = true;
 
     public TicTacToeLogic() {
     }
-
     public int getMaxClicks() {
         return maxClicksPerTurn;
     }
+    public boolean hasSpecialVersion() { return hasSpecialVersion; }
 
     // only checks if there is a row filled with game pieces
     // does not check for particular players' game pieces

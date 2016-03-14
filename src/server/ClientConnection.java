@@ -1,13 +1,9 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-// TODO: uncomment when needed for sending objects back and forth
-//import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
 
 /*
  * NOTES:
@@ -23,8 +19,7 @@ import java.net.Socket;
 
 public class ClientConnection
 {
-//	private Socket socket; 							// Used to save the socket that the user is connected to
-	public Socket socket; // TODO: change back to private, used for testing
+	public Socket socket; 
 	private boolean connected;						// State of the user if user is currently connected to the server
 	private CommunicationPort commport;				// Nested class that deals with the 
 	private boolean inGameRoom;
@@ -53,6 +48,7 @@ public class ClientConnection
 	{
 		try
 		{
+			commport.shutdown();
 			connected = false;
 			socket.close();
 		}
@@ -77,18 +73,18 @@ public class ClientConnection
 		return connected;
 	}
 	
-	public void sendMessage()
+	public void sendMessage() throws IOException
 	{
-		commport.output.println("Client: " + socket.getLocalPort() + " thread: " + commport.getId());
+		commport.output.writeObject("Client: " + socket.getLocalPort() + " thread: " + commport.getId());
 		commport.output.flush();
 	}
 	
-	public PrintWriter getOutputPort()
+	public ObjectOutputStream getOutputPort()
 	{
 		return commport.output;
 	}
-	
-	public BufferedReader getInputPort()
+
+	public ObjectInputStream getInputPort()
 	{
 		return commport.input;
 	}
@@ -96,6 +92,11 @@ public class ClientConnection
 	public void setNameGame(GameNames game)
 	{
 		this.nameOfGame = game;
+	}
+	
+	public String getClientName()
+	{
+		return this.clientName;
 	}
 
 	
@@ -106,11 +107,8 @@ public class ClientConnection
 	 */
 	private class CommunicationPort extends Thread
 	{
-		// TODO: need to add methods to allow for communication
-		public BufferedReader input;
-		public PrintWriter   output;
-//		private OutputObjectReader out;
-//		private InputObjectReader in;
+		private ObjectInputStream input;
+		private ObjectOutputStream output;
 		private ClientConnection client;
 		
 		public CommunicationPort(ClientConnection host)
@@ -118,37 +116,46 @@ public class ClientConnection
 			this.client = host;
 		}
 		
+		public void shutdown() throws IOException
+		{
+			input.close();
+			output.close();
+		}
 		
 		public void run()
 		{
 			try
 			{
-				input  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				output = new PrintWriter(socket.getOutputStream(), true);
+				output = new ObjectOutputStream(socket.getOutputStream());
+				output.flush();
+				System.out.println("OutputStream flushed");
+				
+				input = new ObjectInputStream(socket.getInputStream());
 				
 				System.out.println("ClientConnection: Using thread #" + Thread.currentThread().getId());	// Tests to see if it's using threads
 				System.out.println(socket + " has established input and output communication ports.");
 				
 				// Client connected successfully
-				output.println(true);
+				output.writeBoolean(true);
 				output.flush();
+				System.out.println("Login attempt: " + true);
 				
 				// Get client name
-				clientName = input.readLine();
-
+				clientName = (String) input.readObject(); // input.readLine();
+				
 				// Query database for the name 
 				engine.logUserIn(clientName);
 
-				output.println(true); // user has logged in, queue the client for next piece of info
+				output.writeBoolean(true); // user has logged in, queue the client for next piece of info
 				output.flush();
 				
 				// Get name of game they want to play
-				nameOfGame = GameNames.valueOf(input.readLine());
+				nameOfGame = (GameNames) input.readObject(); // GameNames.valueOf(input.readLine());
 
 				// Add to [specific game] queue or to a new game
 				engine.addUser(client, nameOfGame);
 
-				this.join(); // Joined so that it does not waste threadsN
+				this.join(); // Joined so that it does not waste threads
 			}
 			catch(Exception e)
 			{
